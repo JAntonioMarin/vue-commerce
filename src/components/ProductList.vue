@@ -1,26 +1,22 @@
 <template>
   <div class="wrapper">
-    <h1>Products</h1>
+    <h1>{{title}}</h1>
     <div class="views">
-      <span class="material-icons">
+      <span v-on:click="gridActive=false"  class="material-icons" :class="{selected:!gridActive}">
         view_list
       </span>
-      <span class="material-icons">
+      <span v-on:click="gridActive=true"  class="material-icons" :class="{selected:gridActive}">
         view_module
       </span>
     </div>
-    <ul>
+    <ul v-bind:class="{ grid: gridActive  }">
       <li v-for="product in products" :key="product.id">
         <h2>{{ product.name }}</h2>
         <img :src="product.image" :alt="product.name">
         <p>
-          {{
-            product.description.length > 150 ?
-              product.description.slice(0, 150) + '...' :
-              product.description
-          }}
+          {{shortDescription(product.description, 150)}}
         </p>
-        <div class="price">{{ product.price }} €</div>
+        <div class="price">{{ product.price | currency }}</div>
         <div>
           <button class="button">add to cart</button>
         </div>
@@ -30,14 +26,46 @@
 </template>
 
 <script>
-import PRODUCTS from '@/utils/__mocks__/mock-products';
+// import PRODUCTS from '@/utils/__mocks__/mock-products';
 
 export default {
   name: 'ProductList',
   data() {
     return {
-      products: PRODUCTS,
+      gridActive: false,
+      // products: PRODUCTS,
     };
+  },
+  props: {
+    products: {
+      id: String,
+      name: String,
+      price: Number,
+      description: String,
+      image: String,
+      createAt: String,
+    },
+    title: String,
+  },
+  filters: {
+    currency(value) {
+      return value.toLocaleString('es-ES', {
+        style: 'currency',
+        currency: 'EUR',
+        currencyDisplay: 'symbol',
+      });
+    },
+  },
+  methods: {
+    print() {
+      console.log('Escribeee');
+    },
+    shortDescription(text, size) {
+      return text.length > size ? `${text.slice(0, size)}...` : text;
+    },
+  },
+  mounted() {
+    console.log('Product mounted');
   },
 };
 </script>
@@ -84,4 +112,29 @@ ul li .price {
   font-size: 16px;
   font-weight: bold;
 }
+
+/*grid view*/
+ul.grid {
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+}
+
+ul.grid li {
+  display: block;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+ul.grid li img {
+  max-width: none;
+}
+
+ul.grid li p {
+  display: none;
+}
+
+.views .selected {
+  border: 1px solid darkgray;
+  background: lightgrey;
+}
+
 </style>
