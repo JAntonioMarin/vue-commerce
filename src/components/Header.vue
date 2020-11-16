@@ -7,9 +7,10 @@
     <div>
       Vue Ecommerce
     </div>
+    <router-link to="/cart">
     <span class="material-icons">
       shopping_cart
-    </span>
+    </span></router-link>
   </header>
 </template>
 
