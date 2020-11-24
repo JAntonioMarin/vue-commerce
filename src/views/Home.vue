@@ -10,8 +10,7 @@
 
 <script>
 // @ is an alias to /src
-import PRODUCTS from '@/utils/__mocks__/mock-products';
-import SHOPPING_CART from '@/utils/__mocks__/mock-shopping-cart';
+import * as productService from '@/product-service';
 import ProductList from '@/components/ProductList.vue';
 
 export default {
@@ -21,13 +20,12 @@ export default {
   },
   data() {
     return {
-      products: PRODUCTS,
+      products: productService.list(),
     };
   },
   methods: {
     addToShoppingCart(product) {
-      console.log(product);
-      SHOPPING_CART.push({ ...product });
+      productService.addToShoppingCart(product);
     },
   },
 };

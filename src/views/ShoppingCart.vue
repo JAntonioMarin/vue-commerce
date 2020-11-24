@@ -12,7 +12,7 @@
 <script>
 // @ is an alias to /src
 import ProductList from '@/components/ProductList.vue';
-import SHOPPING_CART from '@/utils/__mocks__/mock-shopping-cart';
+import * as productService from '@/product-service';
 
 export default {
   name: 'ShoppingCart',
@@ -21,13 +21,12 @@ export default {
   },
   data() {
     return {
-      products: SHOPPING_CART,
+      products: productService.listShoppingCart(),
     };
   },
   methods: {
     removeFromCart(product) {
-      const id = SHOPPING_CART.findIndex((value) => value.id === product.id);
-      SHOPPING_CART.splice(id, 1);
+      productService.removeFromShoppingCart(product);
     },
   },
 };
