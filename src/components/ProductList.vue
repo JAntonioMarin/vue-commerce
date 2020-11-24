@@ -10,7 +10,7 @@
       </span>
     </div>
     <ul v-bind:class="{ grid: gridActive  }">
-      <li v-for="product in products" :key="product.id">
+      <li v-for="(product, index) in products" :key="index">
         <h2>{{ product.name }}</h2>
         <img :src="product.image" :alt="product.name">
         <p>
@@ -18,7 +18,7 @@
         </p>
         <div class="price">{{ product.price | currency }}</div>
         <div>
-          <button class="button">add to cart</button>
+          <button class="button" @click="$emit('button-click', product)">{{ buttonText }}</button>
         </div>
       </li>
     </ul>
@@ -46,6 +46,7 @@ export default {
       createAt: String,
     },
     title: String,
+    buttonText: String,
   },
   filters: {
     currency(value) {
