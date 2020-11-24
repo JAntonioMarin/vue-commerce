@@ -62,4 +62,9 @@ span.material-icons {
 #nav a.router-link-exact-active {
   color: #42b983;
 }
+
+.loading {
+  display: block;
+  margin: 50px auto;
+}
 </style>
